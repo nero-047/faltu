@@ -7,7 +7,7 @@ interface Blog {
   title: string;
   content: string;
   uploadDateTime: string;
-  image?: string;
+  image?: string | null;
   author?: string;
 }
 

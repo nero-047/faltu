@@ -77,7 +77,7 @@ export default function SolutionPage({
     categoryColors[question.category] || categoryColors["Default"];
 
   return (
-    <main className="md:max-w-[70%] mx-auto px-6 py-10 h-full">
+    <main className="container mx-auto px-6 py-10 h-full">
       {/* Question Title */}
       <h1 className="text-4xl font-bold mb-4 dark:text-white">
         {question.title}

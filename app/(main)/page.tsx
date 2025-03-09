@@ -8,7 +8,6 @@ import { getHomeData } from "./lib/fetchData";
 import Link from "next/link";
 import HomePageShimmer from "./components/HomeLoad";
 
-// Define types for questions, blogs, and solutions
 type Question = {
   id: string;
   title: string;
@@ -72,7 +71,7 @@ export default function Home() {
   }
 
   return (
-    <main className="md:max-w-[70%] mx-auto px-6 py-10">
+    <main className="container mx-auto px-6 py-10">
       {/* Questions Section */}
       <section className="mt-12">
         <div className="flex justify-between items-center mb-6">
@@ -81,7 +80,7 @@ export default function Home() {
             View All
           </Link>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {data.questions.length > 0 ? (
             data.questions.map((q: Question) => (
               <QuestionCard key={q.id} question={q} showAuthor={true} />

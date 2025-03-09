@@ -1,17 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "../../../../lib/db";
+import { RowDataPacket } from "mysql2/promise";
 
-// Remove the custom PageParams interface and use Context directly
+interface Blog extends RowDataPacket {
+  id: number;
+  title: string;
+  content: string;
+  author: string;
+  image: string | null;
+  createdAt: string;
+}
 
-export async function GET(req: NextRequest, context: { params: { slug: string } }) {
-  const { slug } = context.params;
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ slung: string }> }
+): Promise<NextResponse> {
+  const { slung } = await params;
 
-  if (!slug) {
-    return NextResponse.json({ error: "Slug is required" }, { status: 400 });
+  if (!slung) {
+    return NextResponse.json({ error: "Slung is required" }, { status: 400 });
   }
 
   try {
-    const [result]: any = await pool.query(
+    const [rows] = await pool.query<Blog[] & RowDataPacket[]>(
       `SELECT 
         b.id, 
         b.title, 
@@ -22,19 +33,16 @@ export async function GET(req: NextRequest, context: { params: { slug: string } 
       FROM blogs b
       JOIN admins a ON b.authorId = a.id
       WHERE b.id = ?`,
-      [slug]
+      [slung]
     );
 
-    if (result.length === 0) {
+    if (rows.length === 0) {
       return NextResponse.json({ error: "Blog not found" }, { status: 404 });
     }
 
-    return NextResponse.json(result[0]); // Return the first blog
+    return NextResponse.json(rows[0]);
   } catch (error) {
     console.error("DB Error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

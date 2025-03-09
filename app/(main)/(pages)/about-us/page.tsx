@@ -1,6 +1,6 @@
 export default function AboutPage() {
   return (
-    <main className="max-w-5xl mx-auto px-6 py-12">
+    <main className="container mx-auto px-6 py-12">
       {/* Header Section */}
       <div className="text-center">
         <h1 className="text-5xl font-extrabold text-gray-900 dark:text-white">

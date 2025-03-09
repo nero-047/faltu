@@ -67,7 +67,7 @@ export default function BlogPage({
 
   if (loading) {
     return (
-      <main className="max-w-[70%] mx-auto px-6 py-10 animate-pulse">
+      <main className="container mx-auto px-6 py-10 animate-pulse">
         <div className="h-10 w-3/4 bg-gray-700 rounded-md mb-4"></div>
         <div className="h-5 w-1/5 bg-gray-600 rounded-md mb-6"></div>
         <div className="w-full h-[250px] md:h-[400px] bg-gray-800 rounded-lg shadow-md mb-6"></div>
@@ -86,7 +86,7 @@ export default function BlogPage({
   }
 
   return (
-    <main className="max-w-[70%] mx-auto px-6 py-10">
+    <main className="container mx-auto px-6 py-10">
       <h1 className="text-4xl font-bold mb-4 dark:text-white">{blog.title}</h1>
       <div className="text-gray-600 dark:text-gray-400 mb-6">
         <span>
