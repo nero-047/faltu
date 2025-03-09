@@ -13,7 +13,7 @@ export default function Header() {
     <header
       className={`bg-gray-900 shadow-md fixed top-0 w-full transition-transform duration-300 z-10`}
     >
-      <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         {/* Logo */}
         <Link
           href="/"

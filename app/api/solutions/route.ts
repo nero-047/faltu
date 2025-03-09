@@ -1,14 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "../../../lib/db";
+import { RowDataPacket } from "mysql2/promise";
+
+// Define interface for Solution
+interface Solution extends RowDataPacket {
+  id: number;
+  title: string;
+  author: string;
+  tags: string | null;
+  subject: string;
+  content: string;
+  uploadDateTime: string;
+}
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
-  const page = parseInt(searchParams.get("page") || "1");
+  const page = parseInt(searchParams.get("page") || "1", 10);
   const perPage = 10;
   const offset = (page - 1) * perPage;
 
   try {
-    const [result]: any = await pool.query(
+    const [result] = await pool.query<Solution[] & RowDataPacket[]>(
       `
       SELECT 
         s.id,
@@ -27,20 +39,20 @@ export async function GET(req: NextRequest) {
       [perPage, offset]
     );
 
-    const [count]: any = await pool.query(
+    const [count] = await pool.query<RowDataPacket[]>(
       `SELECT COUNT(*) AS total FROM questions WHERE solution IS NOT NULL`
     );
 
-    const parsedResult = result.map((s: any) => ({
+    const parsedResult = result.map((s) => ({
       ...s,
-      tags: JSON.parse(s.tags),
+      tags: s.tags ? JSON.parse(s.tags) : [],
     }));
 
     return NextResponse.json({
       solutions: parsedResult,
       pagination: {
         currentPage: page,
-        totalPages: Math.ceil(count[0].total / perPage),
+        totalPages: Math.ceil(Number(count[0].total) / perPage),
       },
     });
   } catch (error) {

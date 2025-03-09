@@ -5,8 +5,12 @@ export async function GET() {
   try {
     const [rows] = await pool.query("SELECT NOW()");
     return NextResponse.json({ success: true, rows });
-  } catch (error: any) {
-    console.error("DB Error: ", error.message);
-    return NextResponse.json({ success: false, error: error.message });
+  } catch (error) {
+    console.error("DB Error: ", error);
+
+    return NextResponse.json({
+      success: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
   }
 }
